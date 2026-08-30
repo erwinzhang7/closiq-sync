@@ -1,0 +1,238 @@
+:root {
+  color-scheme: light dark;
+  --bg: #ffffff;
+  --fg: #1c1c1e;
+  --muted: #8a8a8e;
+  --line: rgba(0, 0, 0, 0.1);
+  --field: rgba(0, 0, 0, 0.04);
+  --accent: #0a84ff;
+  --ok: #34c759;
+  --warn: #ff9f0a;
+  --bad: #ff453a;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #1c1c1e;
+    --fg: #f2f2f7;
+    --muted: #98989d;
+    --line: rgba(255, 255, 255, 0.12);
+    --field: rgba(255, 255, 255, 0.08);
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  width: 268px;
+  padding: 16px 16px 10px;
+  background: var(--bg);
+  color: var(--fg);
+  font: 13px/1.45 -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1 {
+  margin: 0 0 4px;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.lede {
+  margin: 0 0 14px;
+  color: var(--muted);
+}
+
+.label {
+  margin: 0 0 6px;
+  color: var(--muted);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  border: 1px solid var(--line);
+  background: var(--field);
+  border-radius: 7px;
+  padding: 7px 12px;
+  cursor: pointer;
+}
+
+button:hover {
+  background: color-mix(in srgb, var(--field) 60%, var(--fg) 8%);
+}
+
+button:active {
+  transform: translateY(0.5px);
+}
+
+button.primary {
+  width: 100%;
+  background: var(--accent);
+  border-color: transparent;
+  color: #fff;
+  font-weight: 590;
+  padding: 9px 12px;
+}
+
+button.primary:hover {
+  filter: brightness(1.06);
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+input {
+  font: inherit;
+  color: inherit;
+  background: var(--field);
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  padding: 7px 10px;
+  min-width: 0;
+}
+
+input:focus {
+  outline: 2px solid var(--accent);
+  outline-offset: -1px;
+}
+
+.divider {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 14px 0 10px;
+  color: var(--muted);
+  font-size: 11px;
+}
+
+.divider::before,
+.divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--line);
+}
+
+.join {
+  display: flex;
+  gap: 6px;
+}
+
+.join input {
+  flex: 1;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-variant-numeric: tabular-nums;
+}
+
+/* The code is the one thing a user must read off the screen and say out loud,
+   so it gets tabular figures and real tracking rather than body treatment. */
+.code {
+  display: block;
+  width: 100%;
+  font-size: 26px;
+  font-weight: 640;
+  letter-spacing: 0.16em;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+  padding: 10px 12px;
+  margin-bottom: 4px;
+}
+
+.copied {
+  margin: 0 0 8px;
+  text-align: center;
+  color: var(--ok);
+  font-size: 11px;
+}
+
+.rows {
+  margin: 10px 0 14px;
+  display: grid;
+  gap: 4px;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.row.muted {
+  color: var(--muted);
+  font-size: 11.5px;
+  padding-left: 15px;
+  font-variant-numeric: tabular-nums;
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--muted);
+  flex: none;
+}
+
+.dot.ok {
+  background: var(--ok);
+}
+.dot.warn {
+  background: var(--warn);
+}
+.dot.bad {
+  background: var(--bad);
+}
+
+#leave {
+  width: 100%;
+}
+
+.error {
+  margin: 10px 0 0;
+  color: var(--bad);
+  font-size: 11.5px;
+}
+
+footer {
+  margin-top: 10px;
+  padding-top: 8px;
+  border-top: 1px solid var(--line);
+}
+
+.link {
+  border: 0;
+  background: none;
+  padding: 0;
+  color: var(--muted);
+  font-size: 11px;
+}
+
+.link:hover {
+  background: none;
+  color: var(--fg);
+}
+
+.advanced {
+  display: flex;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.advanced input {
+  flex: 1;
+  font-size: 11px;
+}
+
+.advanced button {
+  font-size: 11px;
+  padding: 5px 9px;
+}

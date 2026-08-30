@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Insync</title>
+    <link rel="stylesheet" href="popup.css" />
+  </head>
+  <body>
+    <!-- Idle: no room joined -->
+    <section id="view-idle" hidden>
+      <h1>Watch together</h1>
+      <p class="lede">Start a session and send the code to whoever you are watching with.</p>
+      <button id="create" class="primary">Start a session</button>
+      <div class="divider"><span>or join one</span></div>
+      <form id="join-form" class="join">
+        <input
+          id="code"
+          type="text"
+          inputmode="latin"
+          autocomplete="off"
+          autocapitalize="characters"
+          spellcheck="false"
+          maxlength="7"
+          placeholder="ABC123"
+          aria-label="Room code"
+        />
+        <button id="join" type="submit">Join</button>
+      </form>
+      <p id="idle-error" class="error" hidden></p>
+    </section>
+
+    <!-- Active: in a room -->
+    <section id="view-room" hidden>
+      <p class="label">Room code</p>
+      <button id="code-display" class="code" title="Copy code">------</button>
+      <p id="copied" class="copied" hidden>Copied</p>
+
+      <div class="rows">
+        <div class="row">
+          <span class="dot" id="dot"></span>
+          <span id="status">Connecting…</span>
+        </div>
+        <div class="row muted" id="detail-row">
+          <span id="detail"></span>
+        </div>
+      </div>
+
+      <button id="leave">Leave session</button>
+    </section>
+
+    <footer>
+      <button id="advanced-toggle" class="link">Server</button>
+      <form id="advanced" class="advanced" hidden>
+        <input id="endpoint" type="url" spellcheck="false" aria-label="Server endpoint" />
+        <button type="submit">Save</button>
+      </form>
+    </footer>
+
+    <script src="api.js"></script>
+    <script src="shared.js"></script>
+    <script src="popup.js"></script>
+  </body>
+</html>

@@ -1,0 +1,8 @@
+.DS_Store
+build/
+node_modules/
+worker/.wrangler/
+worker/node_modules/
+*.xcuserstate
+xcuserdata/
+DerivedData/
