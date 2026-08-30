@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <!-- Kept from Apple's template. The container app has no business making
+         network requests, and saying so explicitly is the cheapest way to keep
+         it that way. -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <link rel="stylesheet" href="../Style.css" />
+    <script src="../Script.js" defer></script>
+  </head>
+  <body>
+    <header>
+      <img src="../Icon.png" width="72" height="72" alt="" />
+      <h1>Insync</h1>
+      <p class="tagline">Watch a video with someone else, actually in step.</p>
+    </header>
+
+    <div class="status">
+      <span class="pip"></span>
+      <span class="state-unknown">Turn on the Insync extension in Safari.</span>
+      <span class="state-on">The extension is on.</span>
+      <span class="state-off">The extension is off.</span>
+    </div>
+
+    <button class="open-preferences">Open Safari Extension Settings…</button>
+
+    <section>
+      <h2>Setting up</h2>
+      <ol>
+        <li>Turn on <b>Insync</b> in Safari Settings, under Extensions.</li>
+        <li>
+          Click the Insync button in the toolbar and choose
+          <b>Always Allow on Every Website</b>.
+        </li>
+        <li>Reload any tabs you already had open.</li>
+      </ol>
+      <p class="note">
+        Safari does not add extensions to pages that were open before you granted
+        access, so that last step matters.
+      </p>
+    </section>
+
+    <section>
+      <h2>Watching together</h2>
+      <ol>
+        <li>Open the video. Click the toolbar button, then <b>Start a session</b>.</li>
+        <li>Send the six-character code to the person you are watching with.</li>
+        <li>They open the same video, enter the code, and you are in step.</li>
+      </ol>
+      <p class="note">
+        Play, pause and skip work from either side. If one of you gets a little
+        ahead, Insync eases that side off by a few percent until it lines back
+        up, which is far less jarring than jumping the video. If someone stops to
+        buffer, the other waits.
+      </p>
+    </section>
+
+    <section>
+      <h2>What leaves your Mac</h2>
+      <p class="note">
+        Only a room code, a playback position, and a scrambled fingerprint of the
+        video address, used to check you are both on the same thing. The address
+        itself is never sent, so there is no record of what you watch. There are
+        no accounts, and rooms are forgotten when you are done.
+      </p>
+    </section>
+
+    <footer>
+      <span id="version"></span>
+    </footer>
+  </body>
+</html>

@@ -1,0 +1,177 @@
+:root {
+  color-scheme: light dark;
+  --fg: #1c1c1e;
+  --muted: #6c6c70;
+  --line: rgba(0, 0, 0, 0.11);
+  --card: rgba(0, 0, 0, 0.035);
+  --accent: #6d6dfa;
+  --ok: #34c759;
+  --off: #ff9f0a;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --fg: #f2f2f7;
+    --muted: #9a9aa0;
+    --line: rgba(255, 255, 255, 0.13);
+    --card: rgba(255, 255, 255, 0.06);
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 26px 30px 22px;
+  /* The window is translucent by default; letting the desktop show through is
+     what makes it feel like a Mac app rather than a web page in a frame. */
+  background: transparent;
+  color: var(--fg);
+  font: 13px/1.5 -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -webkit-user-select: none;
+  cursor: default;
+}
+
+header {
+  text-align: center;
+  margin-bottom: 18px;
+}
+
+header img {
+  border-radius: 16px;
+  margin-bottom: 10px;
+}
+
+h1 {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 640;
+  letter-spacing: -0.01em;
+}
+
+.tagline {
+  margin: 3px 0 0;
+  color: var(--muted);
+}
+
+/* --- extension state ---------------------------------------------------- */
+
+.status {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 9px 12px;
+  border-radius: 9px;
+  background: var(--card);
+  margin-bottom: 10px;
+}
+
+.pip {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--muted);
+  flex: none;
+}
+
+body.state-on .pip {
+  background: var(--ok);
+}
+
+body.state-off .pip {
+  background: var(--off);
+}
+
+/* Exactly one of the three lines is shown, driven by the class the native side
+   sets via show(). Hiding them all by default means an unknown state shows the
+   neutral prompt rather than three contradictory sentences. */
+.state-on,
+.state-off,
+.state-unknown {
+  display: none;
+}
+
+body:not(.state-on):not(.state-off) .state-unknown,
+body.state-on .state-on,
+body.state-off .state-off {
+  display: inline;
+}
+
+button.open-preferences {
+  display: block;
+  width: 100%;
+  font: inherit;
+  font-weight: 590;
+  color: #fff;
+  background: var(--accent);
+  border: 0;
+  border-radius: 8px;
+  padding: 9px 12px;
+  cursor: pointer;
+}
+
+button.open-preferences:hover {
+  filter: brightness(1.07);
+}
+
+button.open-preferences:active {
+  filter: brightness(0.94);
+}
+
+/* When the extension is already on, the button is still useful but should stop
+   competing with the instructions for attention. */
+body.state-on button.open-preferences {
+  background: var(--card);
+  color: var(--fg);
+  font-weight: 500;
+}
+
+/* --- content ------------------------------------------------------------ */
+
+section {
+  margin-top: 22px;
+  padding-top: 16px;
+  border-top: 1px solid var(--line);
+}
+
+h2 {
+  margin: 0 0 8px;
+  font-size: 12px;
+  font-weight: 620;
+  text-transform: uppercase;
+  letter-spacing: 0.055em;
+  color: var(--muted);
+}
+
+ol {
+  margin: 0;
+  padding-left: 18px;
+}
+
+li {
+  margin-bottom: 5px;
+}
+
+li::marker {
+  color: var(--muted);
+}
+
+b {
+  font-weight: 600;
+}
+
+.note {
+  margin: 9px 0 0;
+  color: var(--muted);
+}
+
+footer {
+  margin-top: 22px;
+  text-align: center;
+  color: var(--muted);
+  font-size: 11px;
+}
