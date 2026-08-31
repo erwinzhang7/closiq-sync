@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Privacy — Insync</title>
+    <meta
+      name="description"
+      content="What Insync sends, what it does not, and how long anything is kept."
+    />
+    <link rel="icon" href="/icon.png" />
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body>
+    <div class="wrap">
+      <header class="site">
+        <img src="/icon.png" alt="" />
+        <a class="name" href="/">Insync</a>
+        <nav>
+          <a href="/support">Support</a>
+          <a href="/privacy" aria-current="page">Privacy</a>
+        </nav>
+      </header>
+
+      <section class="hero">
+        <h1>Privacy</h1>
+        <p class="lede">
+          Insync has no accounts and no analytics, and it never learns what you
+          watch.
+        </p>
+      </section>
+
+      <p class="meta">Last updated 30 August 2026. Insync is made by Closiq Inc.</p>
+
+      <h2>The short version</h2>
+      <div class="card">
+        <p>
+          To keep two videos in step, Insync needs to send a playback position to
+          the other person. It does that through a relay server, and that is the
+          only thing it sends.
+        </p>
+        <p>
+          It does <b>not</b> send the address of the page you are on. Instead it
+          sends a one-way scrambled fingerprint of it, which is only ever
+          compared against your partner's to confirm you are both on the same
+          video. A fingerprint cannot be turned back into a web address, so no
+          record of your viewing exists on the server or anywhere else.
+        </p>
+      </div>
+
+      <h2>What is sent while a session is running</h2>
+      <dl>
+        <dt>Room code</dt>
+        <dd>
+          The six-character code, generated at random when you start a session.
+          It is not derived from you or your device.
+        </dd>
+
+        <dt>A session identifier</dt>
+        <dd>
+          A random value created when you join and discarded when you leave. It
+          distinguishes the two participants from each other and nothing more. It
+          is not stored, and a new one is generated every time.
+        </dd>
+
+        <dt>Playback state</dt>
+        <dd>
+          Your position in the video in seconds, whether you are playing or
+          paused, the playback speed, and whether you are currently buffering.
+        </dd>
+
+        <dt>A fingerprint of the video address</dt>
+        <dd>
+          A SHA-256 hash, truncated, of the normalised page address. Used only to
+          check that both participants are on the same video. The address itself
+          never leaves your Mac.
+        </dd>
+
+        <dt>Timing measurements</dt>
+        <dd>
+          Timestamps used to measure the delay between your Mac and the server,
+          so positions can be compared accurately.
+        </dd>
+      </dl>
+
+      <h2>What is never sent</h2>
+      <ul>
+        <li>The address, title or contents of any page you visit.</li>
+        <li>The video itself, or any audio, image or frame from it.</li>
+        <li>Your name, email address, or any account. There are no accounts.</li>
+        <li>Any advertising or tracking identifier.</li>
+        <li>Anything at all when you are not in an active session.</li>
+      </ul>
+
+      <h2>How long anything is kept</h2>
+      <p>
+        Playback messages are passed between participants and not written down.
+        The server keeps only which participants are currently connected to a
+        room, for as long as the room is in use. A room and everything associated
+        with it is deleted automatically twelve hours after it goes quiet.
+      </p>
+      <p>
+        Settings that stay on your Mac, such as the room you last joined, are
+        stored locally by Safari and are removed when you uninstall Insync.
+      </p>
+
+      <h2>The relay server</h2>
+      <p>
+        The relay runs on Cloudflare. As with any connection to any website, the
+        network address your Mac connects from is necessarily visible to
+        Cloudflare in order to deliver traffic, and may appear in their standard
+        operational logs. Closiq does not record it, does not associate it with a
+        room, and does not use it for any purpose.
+      </p>
+
+      <h2>Why Insync asks for access to every website</h2>
+      <p>
+        Video lives on many different sites, and Insync cannot know in advance
+        which one you will use. Safari therefore asks for permission across
+        websites. On any page, Insync reads and adjusts only the playback state
+        of the video element: its position, whether it is playing, and its speed.
+        It does not read page content, form fields, or anything you type.
+      </p>
+
+      <h2>Children</h2>
+      <p>
+        Insync is not directed at children and collects no personal information
+        from anyone, including children.
+      </p>
+
+      <h2>Sharing</h2>
+      <p>
+        Nothing is sold, rented or shared. There are no advertisers, no analytics
+        providers and no third-party services beyond the hosting described above.
+      </p>
+
+      <h2>Changes</h2>
+      <p>
+        If this policy changes, the date at the top of this page changes with it.
+      </p>
+
+      <h2>Contact</h2>
+      <p>
+        Questions about privacy:
+        <a href="mailto:support@closiq.app">support@closiq.app</a>.
+      </p>
+
+      <footer class="site">
+        <a href="/">Insync</a>
+        <a href="/support">Support</a>
+        <span>Closiq Inc.</span>
+      </footer>
+    </div>
+  </body>
+</html>

@@ -13,7 +13,7 @@ APP_NAME="Insync"
 # "embedded binary's bundle identifier is not prefixed with the parent app's"
 # check is case-SENSITIVE. `app.closiq.insync` against an app named `Insync`
 # fails the build with exactly that message.
-BUNDLE_ID="app.closiq.Insync"
+BUNDLE_ID="com.closiq.Insync"
 
 EXTRA=()
 [[ "${1:-}" == "--snapshot" ]] && EXTRA=(--copy-resources)

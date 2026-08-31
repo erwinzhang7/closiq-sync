@@ -19,9 +19,9 @@ import SafariServices
 import WebKit
 import os.log
 
-let extensionBundleIdentifier = "app.closiq.Insync.Extension"
+let extensionBundleIdentifier = "com.closiq.Insync.Extension"
 
-private let log = OSLog(subsystem: "app.closiq.Insync", category: "container")
+private let log = OSLog(subsystem: "com.closiq.Insync", category: "container")
 
 class ViewController: NSViewController, WKNavigationDelegate, WKScriptMessageHandler {
 

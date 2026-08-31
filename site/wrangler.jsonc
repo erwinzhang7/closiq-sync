@@ -1,0 +1,20 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "insync-site",
+  "compatibility_date": "2026-05-28",
+  // Assets-only Worker: there is no server-side logic here, just three static
+  // pages. No `main`, so nothing to execute and nothing to keep secure.
+  "assets": {
+    "directory": "./public",
+    // Serves /privacy from privacy.html, which is what the App Store listing
+    // and the in-app links point at.
+    "html_handling": "auto-trailing-slash",
+    "not_found_handling": "404-page"
+  },
+  "routes": [
+    {
+      "pattern": "insync.closiq.app",
+      "custom_domain": true
+    }
+  ]
+}
