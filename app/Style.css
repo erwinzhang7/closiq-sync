@@ -1,5 +1,6 @@
 :root {
   color-scheme: light dark;
+  --bg: #ffffff;
   --fg: #1c1c1e;
   --muted: #6c6c70;
   --line: rgba(0, 0, 0, 0.11);
@@ -11,6 +12,7 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
+    --bg: #1e1e20;
     --fg: #f2f2f7;
     --muted: #9a9aa0;
     --line: rgba(255, 255, 255, 0.13);
@@ -25,9 +27,12 @@
 body {
   margin: 0;
   padding: 26px 30px 22px;
-  /* The window is translucent by default; letting the desktop show through is
-     what makes it feel like a Mac app rather than a web page in a frame. */
-  background: transparent;
+  /* Paint our own background rather than letting the window material show
+     through. The page resolves its colour scheme independently of the host
+     window's chrome, so a transparent body can land near-black text on dark
+     material depending on which way each side resolves. Being explicit costs
+     nothing and removes the coupling. */
+  background: var(--bg);
   color: var(--fg);
   font: 13px/1.5 -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
   -webkit-font-smoothing: antialiased;

@@ -48,6 +48,7 @@ GEN="$ROOT/build/$APP_NAME/$APP_NAME"
 # The container app's UI. Apple's stock page is a single sentence about turning
 # the extension on, which is exactly the "empty container app" shape that App
 # Store review pushes back on. Ours explains setup, use and what is transmitted.
+cp "$ROOT/app/ViewController.swift" "$GEN/ViewController.swift"
 cp "$ROOT/app/Main.html" "$GEN/Resources/Base.lproj/Main.html"
 cp "$ROOT/app/Style.css" "$GEN/Resources/Style.css"
 cp "$ROOT/app/Script.js" "$GEN/Resources/Script.js"
