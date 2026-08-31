@@ -49,6 +49,12 @@ GEN="$ROOT/build/$APP_NAME/$APP_NAME"
 # the extension on, which is exactly the "empty container app" shape that App
 # Store review pushes back on. Ours explains setup, use and what is transmitted.
 cp "$ROOT/app/ViewController.swift" "$GEN/ViewController.swift"
+
+# Fix the deployment target (the packager leaves it at the SDK version) and
+# switch Release to manual distribution signing. Fails loudly rather than
+# silently skipping. Entitlements are deliberately left alone: the project
+# already generates them from ENABLE_APP_SANDBOX and friends.
+"$ROOT/scripts/patch-project.py" "$ROOT/build/$APP_NAME/$APP_NAME.xcodeproj/project.pbxproj"
 cp "$ROOT/app/Main.html" "$GEN/Resources/Base.lproj/Main.html"
 cp "$ROOT/app/Style.css" "$GEN/Resources/Style.css"
 cp "$ROOT/app/Script.js" "$GEN/Resources/Script.js"
@@ -70,7 +76,22 @@ copy_icon 256 "mac-icon-256@1x.png"
 copy_icon 512 "mac-icon-256@2x.png"
 copy_icon 512 "mac-icon-512@1x.png"
 copy_icon 1024 "mac-icon-512@2x.png"
-cp "$ROOT/extension/images/icon-512.png" "$GEN/Assets.xcassets/LargeIcon.imageset/"*.png 2>/dev/null || true
+# LargeIcon ships empty from the packager, with placeholder entries and no
+# files. Populate it properly; an unquoted glob copy here just creates a file
+# literally named "*.png" and Xcode warns about an unassigned child.
+LARGE="$GEN/Assets.xcassets/LargeIcon.imageset"
+\rm -f "$LARGE"/*.png
+cp "$ROOT/extension/images/icon-256.png" "$LARGE/icon-256.png"
+cp "$ROOT/extension/images/icon-512.png" "$LARGE/icon-512.png"
+cat > "$LARGE/Contents.json" <<'JSON'
+{
+  "images" : [
+    { "idiom" : "universal", "scale" : "1x", "filename" : "icon-256.png" },
+    { "idiom" : "universal", "scale" : "2x", "filename" : "icon-512.png" }
+  ],
+  "info" : { "author" : "xcode", "version" : 1 }
+}
+JSON
 
 # The template window is 425x325, which is too short for real onboarding text
 # and leaves it scrolling in a stub of a window. Widen and lengthen it.
