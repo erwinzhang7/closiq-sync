@@ -12,8 +12,8 @@ Everything to paste into App Store Connect. Field lengths are checked by
 - **Marketing URL** https://closiqsync.closiq.app
 - **Privacy Policy URL** https://closiqsync.closiq.app/privacy
 - **Review contact name** Erwin Zhang
-- **Review contact email** erwinzhang7@gmail.com
-- **Review contact phone** TODO-PHONE
+- **Review contact email** contact@closiq.app
+- **Review contact phone** +16473652479
 
 ---
 
