@@ -22,7 +22,7 @@
 (() => {
   'use strict';
 
-  const { DEFAULTS, TUNING, isValidCode, normalizeCode } = globalThis.WatchalongShared;
+  const { DEFAULTS, TUNING, isValidCode, normalizeCode } = globalThis.ClosiqSyncShared;
 
   let cfg = { ...DEFAULTS };
   let ws = null;
@@ -182,12 +182,12 @@
   }
 
   function elect() {
-    if (activePort && ports.has(activePort) && activePort.__watchalong?.hasVideo) return;
+    if (activePort && ports.has(activePort) && activePort.__closiqsync?.hasVideo) return;
 
     const previous = activePort;
     // Prefer a frame in the focused tab, then any frame holding a real video.
-    const claimants = [...ports].filter((p) => p.__watchalong?.hasVideo);
-    claimants.sort((a, b) => (b.__watchalong.claimedAt || 0) - (a.__watchalong.claimedAt || 0));
+    const claimants = [...ports].filter((p) => p.__closiqsync?.hasVideo);
+    claimants.sort((a, b) => (b.__closiqsync.claimedAt || 0) - (a.__closiqsync.claimedAt || 0));
     activePort = claimants[0] || null;
 
     if (previous && previous !== activePort && ports.has(previous)) {
@@ -203,8 +203,8 @@
   }
 
   api.runtime.onConnect.addListener((port) => {
-    if (port.name !== 'watchalong') return;
-    port.__watchalong = { hasVideo: false, claimedAt: 0 };
+    if (port.name !== 'closiqsync') return;
+    port.__closiqsync = { hasVideo: false, claimedAt: 0 };
     ports.add(port);
 
     port.onDisconnect.addListener(() => {
@@ -219,8 +219,8 @@
     port.onMessage.addListener(async (msg) => {
       switch (msg.t) {
         case 'claim':
-          port.__watchalong.hasVideo = !!msg.hasVideo;
-          port.__watchalong.claimedAt = Date.now();
+          port.__closiqsync.hasVideo = !!msg.hasVideo;
+          port.__closiqsync.claimedAt = Date.now();
           elect();
           // A revived background page learns the room from storage here, which
           // is what makes teardown survivable.
@@ -260,7 +260,7 @@
   function broadcastStatus() {
     // Popups come and go; a failed send just means nobody is looking.
     try {
-      api.runtime.sendMessage({ t: 'watchalong-state', state: publicState() }).catch(() => {});
+      api.runtime.sendMessage({ t: 'closiqsync-state', state: publicState() }).catch(() => {});
     } catch {
       /* ignore */
     }

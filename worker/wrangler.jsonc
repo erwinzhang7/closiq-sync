@@ -1,6 +1,6 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "watchalong-rooms",
+  "name": "closiqsync-rooms",
   "main": "src/index.js",
   // Pinned to what the locally installed workerd supports; bumping this
   // requires bumping wrangler first or `dev --local` refuses to start.

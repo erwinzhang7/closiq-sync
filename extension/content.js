@@ -10,11 +10,11 @@
 
   // The popup re-injects into tabs that predate the permission grant, and Safari
   // will happily end up with two copies of every listener without this.
-  if (globalThis.__watchalongLoaded) return;
-  globalThis.__watchalongLoaded = true;
+  if (globalThis.__closiqsyncLoaded) return;
+  globalThis.__closiqsyncLoaded = true;
 
-  const { TUNING, mediaFingerprint } = globalThis.WatchalongShared;
-  const media = globalThis.WatchalongMedia;
+  const { TUNING, mediaFingerprint } = globalThis.ClosiqSyncShared;
+  const media = globalThis.ClosiqSyncMedia;
 
   let port = null;
   let engine = null;
@@ -30,7 +30,7 @@
 
   function openPort() {
     try {
-      port = api.runtime.connect({ name: 'watchalong' });
+      port = api.runtime.connect({ name: 'closiqsync' });
     } catch {
       // Background not reachable (extension updating); try again shortly.
       return setTimeout(openPort, 1000);
@@ -79,7 +79,7 @@
 
   function ensureEngine() {
     if (engine) return engine;
-    engine = globalThis.WatchalongSync.create({
+    engine = globalThis.ClosiqSyncEngine.create({
       media,
       send(msg) {
         try {
@@ -117,7 +117,7 @@
       try {
         engine.tick();
       } catch (e) {
-        console.warn('[Watchalong] tick failed', e);
+        console.warn('[ClosiqSync] tick failed', e);
       }
     }, TUNING.TICK_MS);
   }

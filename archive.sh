@@ -12,10 +12,10 @@
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-APP_NAME="Watchalong"
+APP_NAME="ClosiqSync"
 TEAM_ID="QFJW3NFT2M"
-APP_ID="com.closiq.Watchalong"
-EXT_ID="com.closiq.Watchalong.Extension"
+APP_ID="com.closiq.ClosiqSync"
+EXT_ID="com.closiq.ClosiqSync.Extension"
 
 VERSION="${VERSION:-1.0}"
 # A build number must be unique per version in App Store Connect and must only
@@ -25,6 +25,11 @@ BUILD="${BUILD:-$(date +%s)}"
 ARCHIVE="$ROOT/build/$APP_NAME.xcarchive"
 EXPORT_DIR="$ROOT/build/export"
 PROJECT="$ROOT/build/$APP_NAME/$APP_NAME.xcodeproj"
+
+# Fail here rather than after a full archive, export and upload. Apple's
+# ingestion service validates manifest.json, so a violation is only reported
+# minutes later as an opaque error code.
+"$ROOT/scripts/check-manifest.py"
 
 # Always regenerate: the archive must be built from the tracked sources plus the
 # project patches, never from whatever happens to be sitting in build/.
@@ -61,9 +66,9 @@ cat > "$ROOT/build/ExportOptions.plist" <<PLIST
 	<key>provisioningProfiles</key>
 	<dict>
 		<key>$APP_ID</key>
-		<string>Watchalong Mac App Store</string>
+		<string>ClosiqSync Mac App Store</string>
 		<key>$EXT_ID</key>
-		<string>Watchalong Extension Mac App Store</string>
+		<string>ClosiqSync Extension Mac App Store</string>
 	</dict>
 	<key>destination</key>
 	<string>export</string>

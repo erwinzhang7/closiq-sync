@@ -1,5 +1,5 @@
 #!/bin/bash
-# Generate the Watchalong icon set.
+# Generate the ClosiqSync icon set.
 #
 # The mark is a play triangle split down the middle: one control, two people.
 # It has to survive being 16px in a Safari toolbar, so the seam is deliberately

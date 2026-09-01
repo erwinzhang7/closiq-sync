@@ -26,7 +26,7 @@
 (() => {
   'use strict';
 
-  const { clamp } = globalThis.WatchalongShared;
+  const { clamp } = globalThis.ClosiqSyncShared;
 
   const EPS = 1e-3;
   const PAUSE_ECHO_MS = 900;
@@ -325,7 +325,7 @@
     }
   }
 
-  globalThis.WatchalongMedia = {
+  globalThis.ClosiqSyncMedia = {
     start,
     primary,
     hasVideo,

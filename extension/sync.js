@@ -31,7 +31,7 @@
 (() => {
   'use strict';
 
-  const { TUNING, clamp } = globalThis.WatchalongShared;
+  const { TUNING, clamp } = globalThis.ClosiqSyncShared;
 
   const AHEAD_HOLD_S = TUNING.SEEK_S;
   const BEHIND_SEEK_S = 10;
@@ -531,5 +531,5 @@
     };
   }
 
-  globalThis.WatchalongSync = { create };
+  globalThis.ClosiqSyncEngine = { create };
 })();

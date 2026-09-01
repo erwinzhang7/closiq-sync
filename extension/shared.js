@@ -5,7 +5,7 @@
 
   // Kept as a single constant with a storage override so moving off workers.dev
   // later is a settings change rather than an App Store resubmission.
-  const DEFAULT_ENDPOINT = 'https://watchalong-rooms.erwinzhang.workers.dev';
+  const DEFAULT_ENDPOINT = 'https://closiqsync-rooms.erwinzhang.workers.dev';
 
   // Must match the server's alphabet exactly. Excludes every glyph that survives
   // being read aloud badly: 0/O, 1/I/L, 2/Z, 5/S, 8/B.
@@ -95,14 +95,14 @@
    */
   async function mediaFingerprint(href) {
     const key = mediaUrlKey(href);
-    const bytes = new TextEncoder().encode(`watchalong:v1:${key}`);
+    const bytes = new TextEncoder().encode(`closiqsync:v1:${key}`);
     const digest = await crypto.subtle.digest('SHA-256', bytes);
     return [...new Uint8Array(digest).slice(0, 8)]
       .map((b) => b.toString(16).padStart(2, '0'))
       .join('');
   }
 
-  globalThis.WatchalongShared = {
+  globalThis.ClosiqSyncShared = {
     DEFAULT_ENDPOINT,
     CODE_ALPHABET,
     CODE_LENGTH,

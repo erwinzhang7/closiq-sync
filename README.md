@@ -1,4 +1,4 @@
-# Watchalong
+# ClosiqSync
 
 Watch a video with someone else and actually stay in step. A Safari extension
 plus a small Cloudflare room server. Works on anything with a `<video>` element.
@@ -90,7 +90,7 @@ node test/sim.mjs        # two-peer simulation, no browser needed
 cd worker && wrangler dev --local && node test-client.mjs http://localhost:8799
 ```
 
-Then once, in Safari: Settings → Extensions → tick **Watchalong**, click the toolbar
+Then once, in Safari: Settings → Extensions → tick **ClosiqSync**, click the toolbar
 button → **Always Allow on Every Website**, and reload any tabs that were already
 open. Safari does not inject content scripts into tabs that predate the grant.
 
@@ -102,14 +102,14 @@ open. Safari does not inject content scripts into tabs that predate the grant.
   Safari caches extension code across reinstalls. Editing only JS is fine.
 - **The bundle id's capital I is load-bearing.** The packager derives the app id
   from `--app-name` and the appex id from `--bundle-identifier`, and Xcode's
-  embedded-binary prefix check is case-sensitive. `app.closiq.watchalong` against an
-  app named `Watchalong` fails the build.
+  embedded-binary prefix check is case-sensitive. `app.closiq.closiqsync` against an
+  app named `ClosiqSync` fails the build.
 - **`build/` is regenerated wholesale.** Anything you want to keep goes in
   `app/` or `extension/`; `build.sh` copies it over the generated output.
 - **A blank container window proves nothing.** Screenshot APIs do not reliably
   capture WebKit's out-of-process surface and the accessibility tree does not
   expose web content to external clients. Build Debug and read the DOM probe:
-  `/usr/bin/log show --last 5m --info --predicate 'subsystem == "app.closiq.Watchalong"'`.
+  `/usr/bin/log show --last 5m --info --predicate 'subsystem == "app.closiq.ClosiqSync"'`.
   Note `log` is a zsh builtin, so the absolute path matters.
 
 ## Shipping
@@ -117,7 +117,7 @@ open. Safari does not inject content scripts into tabs that predate the grant.
 ```sh
 ./scripts/check-listing.py     # field lengths against App Store Connect limits
 ./scripts/make-screenshots.py  # store/screenshots/*.png at 2880x1800
-./archive.sh                   # signed build/export/Watchalong.pkg
+./archive.sh                   # signed build/export/ClosiqSync.pkg
 UPLOAD=1 ./archive.sh          # and upload
 ```
 

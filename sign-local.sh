@@ -1,5 +1,5 @@
 #!/bin/bash
-# Build, sign and install Watchalong.app for LOCAL development.
+# Build, sign and install ClosiqSync.app for LOCAL development.
 #
 # Safari silently refuses to LIST an extension whose container app is not signed
 # by an Apple-issued certificate. An ad-hoc ("Sign to Run Locally") build runs
@@ -11,11 +11,11 @@
 # This is the DEV path. The App Store build is archive.sh, which uses the
 # Closiq distribution identity and Xcode's normal signing.
 #
-# Usage: ./sign-local.sh [/path/to/Watchalong.app]
+# Usage: ./sign-local.sh [/path/to/ClosiqSync.app]
 set -euo pipefail
 
-IDENTITY="${WATCHALONG_SIGN_IDENTITY:-Apple Development: erwinzhang7@gmail.com}"
-APP_NAME="Watchalong"
+IDENTITY="${CLOSIQSYNC_SIGN_IDENTITY:-Apple Development: erwinzhang7@gmail.com}"
+APP_NAME="ClosiqSync"
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 TMP=$(mktemp -d)
@@ -99,7 +99,7 @@ if [ "${INSTALL:-1}" = "1" ]; then
   echo "  installed and registered: /Applications/$APP_NAME.app"
   echo
   echo "One time only, in Safari:"
-  echo "  1. Settings > Extensions > tick Watchalong"
+  echo "  1. Settings > Extensions > tick ClosiqSync"
   echo "  2. Toolbar button > Always Allow on Every Website"
   echo "  3. Reload any tabs that were already open"
   echo

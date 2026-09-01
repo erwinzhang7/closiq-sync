@@ -78,7 +78,7 @@ def defs():
 
 
 def app_mark(x, y, size):
-    """The Watchalong icon, drawn at an arbitrary size."""
+    """The ClosiqSync icon, drawn at an arbitrary size."""
     s = size / 512
     return f"""
   <g transform="translate({x},{y}) scale({s})">

@@ -51,7 +51,7 @@ function makeVideo({ pos = 0, paused = true } = {}) {
       if (!this.paused && !this.buffering) this.pos += (dt / 1000) * this.rate;
     },
 
-    // --- the WatchalongMedia surface the engine depends on ---
+    // --- the ClosiqSyncMedia surface the engine depends on ---
     snapshot() {
       return {
         pos: this.pos,
@@ -157,7 +157,7 @@ function makePeer(id, { skew, video }) {
   const outbox = [];
   let status = null;
 
-  const engine = ctx.WatchalongSync.create({
+  const engine = ctx.ClosiqSyncEngine.create({
     media: video,
     send: (msg) => outbox.push(msg),
     onStatus: (s) => (status = s),
@@ -171,7 +171,7 @@ function makePeer(id, { skew, video }) {
     get status() {
       return status;
     },
-    tuning: ctx.WatchalongShared.TUNING,
+    tuning: ctx.ClosiqSyncShared.TUNING,
   };
 }
 

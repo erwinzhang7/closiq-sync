@@ -31,12 +31,12 @@ from pathlib import Path
 
 DEPLOYMENT_TARGET = "13.0"
 
-APP_BUNDLE_ID = "com.closiq.Watchalong"
-EXT_BUNDLE_ID = "com.closiq.Watchalong.Extension"
+APP_BUNDLE_ID = "com.closiq.ClosiqSync"
+EXT_BUNDLE_ID = "com.closiq.ClosiqSync.Extension"
 
 TEAM_ID = "QFJW3NFT2M"  # Closiq Inc.
-APP_PROFILE = "Watchalong Mac App Store"
-EXT_PROFILE = "Watchalong Extension Mac App Store"
+APP_PROFILE = "ClosiqSync Mac App Store"
+EXT_PROFILE = "ClosiqSync Extension Mac App Store"
 
 CONFIG_BLOCK = r"\{\s*isa = XCBuildConfiguration;.*?\n\t\t\};"
 
@@ -105,10 +105,16 @@ def main():
             if f"PRODUCT_BUNDLE_IDENTIFIER = {APP_BUNDLE_ID};" not in block:
                 return block
             added += 1
-            return set_setting(
+            block = set_setting(
                 block,
                 "INFOPLIST_KEY_LSApplicationCategoryType",
                 '"public.app-category.entertainment"',
+            )
+            # The Xcode target is ClosiqSync (no space) because the packager
+            # derives bundle ids from it. What the user sees should match the
+            # App Store listing, which is spaced.
+            return set_setting(
+                block, "INFOPLIST_KEY_CFBundleDisplayName", '"Closiq Sync"'
             )
 
         return re.sub(CONFIG_BLOCK, repl, text, flags=re.S), added

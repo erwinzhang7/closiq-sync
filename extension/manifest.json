@@ -1,8 +1,9 @@
 {
   "manifest_version": 3,
-  "name": "Watchalong",
+  "name": "Closiq Sync",
   "version": "1.0",
-  "description": "Watch videos in sync with someone else. Play, pause and seek together on any site, with gentle speed nudges that close small gaps invisibly.",
+  "_comment_description": "MUST be 112 characters or fewer. App Store upload rejects longer with error 90849, at upload time rather than at build time. scripts/check-manifest.py enforces it.",
+  "description": "Watch videos in step with someone else. Play, pause and skip together, on any site with a video.",
 
   "permissions": ["storage", "activeTab", "scripting", "tabs"],
   "host_permissions": ["*://*/*"],
@@ -12,7 +13,7 @@
   },
 
   "action": {
-    "default_title": "Watchalong",
+    "default_title": "ClosiqSync",
     "default_popup": "popup.html",
     "default_icon": {
       "16": "images/toolbar-16.png",
