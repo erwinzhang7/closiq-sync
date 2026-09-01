@@ -111,3 +111,23 @@ open. Safari does not inject content scripts into tabs that predate the grant.
   expose web content to external clients. Build Debug and read the DOM probe:
   `/usr/bin/log show --last 5m --info --predicate 'subsystem == "app.closiq.Watchalong"'`.
   Note `log` is a zsh builtin, so the absolute path matters.
+
+## Shipping
+
+```sh
+./scripts/check-listing.py     # field lengths against App Store Connect limits
+./scripts/make-screenshots.py  # store/screenshots/*.png at 2880x1800
+./archive.sh                   # signed build/export/Watchalong.pkg
+UPLOAD=1 ./archive.sh          # and upload
+```
+
+Listing copy, privacy-label reasoning and App Review notes live in
+`store/listing.md`. The app record itself must be created in the App Store
+Connect web UI first: the API refuses `POST /v1/apps`.
+
+`scripts/patch-project.py` fixes two things the packager gets wrong silently.
+It sets the project deployment target to the SDK version, which the app target
+inherits, so an unpatched build refuses to install on anything but the newest
+macOS; and it leaves signing on Automatic, which cannot be combined with
+explicit distribution profiles. Entitlements are deliberately left alone, since
+the project already generates them from `ENABLE_APP_SANDBOX` and friends.
