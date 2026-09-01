@@ -2,14 +2,19 @@
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "closiqsync-site",
   "compatibility_date": "2026-05-28",
-  // Assets-only Worker: there is no server-side logic here, just three static
-  // pages. No `main`, so nothing to execute and nothing to keep secure.
+  // The pages are static; the Worker exists only to add byte-range support for
+  // the demo clip, which Safari requires and the assets router does not provide.
+  "main": "src/index.js",
   "assets": {
     "directory": "./public",
+    "binding": "ASSETS",
     // Serves /privacy from privacy.html, which is what the App Store listing
     // and the in-app links point at.
     "html_handling": "auto-trailing-slash",
-    "not_found_handling": "404-page"
+    "not_found_handling": "404-page",
+    // Without this the assets router answers the clip directly and ignores
+    // Range, so this one path has to reach the Worker.
+    "run_worker_first": ["/demo/clip.mp4"]
   },
   "routes": [
     {

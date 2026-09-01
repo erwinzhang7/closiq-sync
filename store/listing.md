@@ -1,4 +1,4 @@
-# App Store Connect listing — ClosiqSync
+# App Store Connect listing — Closiq Sync
 
 Everything to paste into App Store Connect. Field lengths are checked by
 `scripts/check-listing.py`.
@@ -11,6 +11,9 @@ Everything to paste into App Store Connect. Field lengths are checked by
 - **Support URL** https://closiqsync.closiq.app/support
 - **Marketing URL** https://closiqsync.closiq.app
 - **Privacy Policy URL** https://closiqsync.closiq.app/privacy
+- **Review contact name** Erwin Zhang
+- **Review contact email** erwinzhang7@gmail.com
+- **Review contact phone** TODO-PHONE
 
 ---
 
@@ -29,7 +32,7 @@ Watch videos in step
 ## Promotional text
 
 ```
-Share a six-character code and watch anything together. If one of you drifts ahead, ClosiqSync eases them back in line so gently you will not notice.
+Share a six-character code and watch anything together. If one of you drifts ahead, Closiq Sync eases them back in line so gently you will not notice.
 ```
 
 ## Keywords
@@ -41,7 +44,7 @@ watch,party,together,sync,video,movie,night,remote,distance,couple,friends,strea
 ## Description
 
 ```
-ClosiqSync keeps two people's video playback in step, on any site with a video.
+Closiq Sync keeps two people's video playback in step, on any site with a video.
 
 Start a session, send the six-character code to whoever you are watching with, and you are lined up. Play, pause and skip work from either side.
 
@@ -49,7 +52,7 @@ IT NUDGES INSTEAD OF JUMPING
 
 Two computers never play at exactly the same speed, so a gap opens up over a long film. Most tools fix that by jumping the video, which is jarring for whoever gets moved.
 
-ClosiqSync does something quieter. Whoever is ahead eases off by up to five percent, with pitch correction so nothing sounds odd, until the gap closes on its own. You will not notice it happening.
+Closiq Sync does something quieter. Whoever is ahead eases off by up to five percent, with pitch correction so nothing sounds odd, until the gap closes on its own. You will not notice it happening.
 
 Because it only ever slows the person in front, nobody is skipped past anything.
 
@@ -57,17 +60,17 @@ NOBODY GETS LEFT BEHIND
 
 If one of you stops to buffer, the other pauses and waits, then you both carry on together. A pause you make yourself is never undone automatically.
 
-If you drift onto different videos, ClosiqSync notices and stops rather than dragging anyone somewhere they did not ask to go.
+If you drift onto different videos, Closiq Sync notices and stops rather than dragging anyone somewhere they did not ask to go.
 
 IT DOES NOT KNOW WHAT YOU WATCH
 
-ClosiqSync needs to send a playback position to the other person, and that is all it sends. The address of the page you are on never leaves your Mac. To check you are both on the same video it compares a one-way scrambled fingerprint instead, which cannot be turned back into a web address.
+Closiq Sync needs to send a playback position to the other person, and that is all it sends. The address of the page you are on never leaves your Mac. To check you are both on the same video it compares a one-way scrambled fingerprint instead, which cannot be turned back into a web address.
 
 No accounts. No sign-up. No analytics. Rooms are forgotten when you are done.
 
 REQUIREMENTS
 
-Both people need ClosiqSync, and both need to be watching the same video. Works with standard web video in Safari.
+Both people need Closiq Sync, and both need to be watching the same video. Works with standard web video in Safari.
 ```
 
 ## What's New (1.0)
@@ -84,7 +87,7 @@ First release.
 
 The reasoning, so it can be defended if queried. Apple treats data as *collected*
 when it is transmitted off device **and** retained or used beyond servicing the
-immediate request. ClosiqSync transmits a room code, playback position and a
+immediate request. Closiq Sync transmits a room code, playback position and a
 truncated hash, all relayed between participants and none of it written to
 storage. The Durable Object retains only current connection membership, and
 deletes that twelve hours after the room goes quiet. Nothing is linked to a
@@ -110,15 +113,15 @@ Paste this into the "Notes" field.
 ```
 WHAT THIS APP DOES
 
-ClosiqSync is a Safari extension that keeps two people's video playback
+Closiq Sync is a Safari extension that keeps two people's video playback
 synchronised. One person starts a session and gets a six-character room code;
 the other enters that code. Both then see the same playback position.
 
 SETUP (one time)
 
-1. Open ClosiqSync.app and click "Open Safari Settings -> Extensions".
-2. Enable "ClosiqSync".
-3. Click the ClosiqSync button in the Safari toolbar and choose
+1. Open Closiq Sync from your Applications folder and click "Open Safari Settings -> Extensions".
+2. Enable "Closiq Sync".
+3. Click the Closiq Sync button in the Safari toolbar and choose
    "Always Allow on Every Website".
 4. Reload any tab that was already open. Safari does not inject content
    scripts into tabs that predate the permission grant, so a pre-existing
@@ -127,11 +130,11 @@ SETUP (one time)
 TESTING THE CORE FEATURE
 
 Synchronisation is between two participants, so it needs two Macs, each with
-ClosiqSync installed and enabled:
+Closiq Sync installed and enabled:
 
 1. On Mac A, open any page with a video (any site with a standard HTML5
    video element works; a plain .mp4 in a tab is sufficient).
-2. Click the ClosiqSync toolbar button, then "Start a session". A six
+2. Click the Closiq Sync toolbar button, then "Start a session". A six
    character code appears.
 3. On Mac B, open the same URL, click the toolbar button, type the code and
    press Join.
@@ -140,8 +143,13 @@ ClosiqSync installed and enabled:
 5. The popup on each Mac shows the connection state and how far apart the
    two positions currently are.
 
-If two Macs are not available for review, we are glad to supply a screen
-recording of the above on request, or to walk through it on a call.
+A screen recording of exactly the above, made on two Macs, is attached to
+this submission under App Review Information. If anything is unclear we are
+glad to walk through it on a call.
+
+You may also use https://closiqsync.closiq.app/demo on both machines. It
+hosts a three-minute clip with a running timer burned into the picture, so
+when the two Macs are in step they visibly show the same number.
 
 WHY THE EXTENSION REQUESTS ACCESS TO ALL WEBSITES
 

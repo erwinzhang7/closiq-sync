@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Sync test clip — Closiq Sync</title>
+    <meta name="robots" content="noindex" />
+    <link rel="icon" href="/icon.png" />
+    <link rel="stylesheet" href="/style.css" />
+    <style>
+      /* The clip is the point of this page, so it gets the room. */
+      .player {
+        margin: 24px 0 8px;
+        border-radius: 12px;
+        overflow: hidden;
+        border: 1px solid var(--line);
+        background: #000;
+      }
+      video {
+        display: block;
+        width: 100%;
+        height: auto;
+      }
+      .why {
+        color: var(--muted);
+        font-size: 14px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <header class="site">
+        <img src="/icon.png" alt="" />
+        <a class="name" href="/">Closiq Sync</a>
+        <nav>
+          <a href="/support">Support</a>
+          <a href="/privacy">Privacy</a>
+        </nav>
+      </header>
+
+      <section class="hero" style="padding-bottom: 8px">
+        <h1>Sync test clip</h1>
+        <p class="lede">
+          Open this page on both Macs, then start a session on one and join from
+          the other.
+        </p>
+      </section>
+
+      <div class="player">
+        <video src="/demo/clip.mp4" controls playsinline preload="metadata"></video>
+      </div>
+
+      <p class="why">
+        The clip burns a running timer into the picture, so when two Macs are in
+        step they show the same number. That makes the sync visible rather than
+        something you have to take on faith. Three minutes long, so there is room
+        to skip around and watch the other side follow.
+      </p>
+
+      <h2>Try it</h2>
+      <ol>
+        <li>Open this page on both Macs.</li>
+        <li>
+          On the first, click the Closiq Sync toolbar button and choose
+          <b>Start a session</b>.
+        </li>
+        <li>Enter the six-character code on the second Mac and press Join.</li>
+        <li>
+          Press play or pause on either one, or drag the scrubber. The other
+          follows, and the two timers stay together.
+        </li>
+      </ol>
+
+      <footer class="site">
+        <a href="/">Closiq Sync</a>
+        <a href="/support">Support</a>
+        <a href="/privacy">Privacy</a>
+        <span>Closiq Inc.</span>
+      </footer>
+    </div>
+  </body>
+</html>
