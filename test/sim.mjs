@@ -15,7 +15,10 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const dir = path.dirname(fileURLToPath(import.meta.url));
-const read = (f) => fs.readFileSync(path.join(dir, '..', f), 'utf8');
+// This file lives outside extension/ on purpose: anything under extension/ is
+// copied verbatim into the shipping appex, and test code has no business in a
+// submitted binary.
+const read = (f) => fs.readFileSync(path.join(dir, '..', 'extension', f), 'utf8');
 const SHARED = read('shared.js');
 const SYNC = read('sync.js');
 
@@ -48,7 +51,7 @@ function makeVideo({ pos = 0, paused = true } = {}) {
       if (!this.paused && !this.buffering) this.pos += (dt / 1000) * this.rate;
     },
 
-    // --- the InsyncMedia surface the engine depends on ---
+    // --- the WatchalongMedia surface the engine depends on ---
     snapshot() {
       return {
         pos: this.pos,
@@ -154,7 +157,7 @@ function makePeer(id, { skew, video }) {
   const outbox = [];
   let status = null;
 
-  const engine = ctx.InsyncSync.create({
+  const engine = ctx.WatchalongSync.create({
     media: video,
     send: (msg) => outbox.push(msg),
     onStatus: (s) => (status = s),
@@ -168,7 +171,7 @@ function makePeer(id, { skew, video }) {
     get status() {
       return status;
     },
-    tuning: ctx.InsyncShared.TUNING,
+    tuning: ctx.WatchalongShared.TUNING,
   };
 }
 

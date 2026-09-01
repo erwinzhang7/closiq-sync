@@ -10,11 +10,11 @@
 
   // The popup re-injects into tabs that predate the permission grant, and Safari
   // will happily end up with two copies of every listener without this.
-  if (globalThis.__insyncLoaded) return;
-  globalThis.__insyncLoaded = true;
+  if (globalThis.__watchalongLoaded) return;
+  globalThis.__watchalongLoaded = true;
 
-  const { TUNING, mediaFingerprint } = globalThis.InsyncShared;
-  const media = globalThis.InsyncMedia;
+  const { TUNING, mediaFingerprint } = globalThis.WatchalongShared;
+  const media = globalThis.WatchalongMedia;
 
   let port = null;
   let engine = null;
@@ -30,7 +30,7 @@
 
   function openPort() {
     try {
-      port = api.runtime.connect({ name: 'insync' });
+      port = api.runtime.connect({ name: 'watchalong' });
     } catch {
       // Background not reachable (extension updating); try again shortly.
       return setTimeout(openPort, 1000);
@@ -79,7 +79,7 @@
 
   function ensureEngine() {
     if (engine) return engine;
-    engine = globalThis.InsyncSync.create({
+    engine = globalThis.WatchalongSync.create({
       media,
       send(msg) {
         try {
@@ -117,7 +117,7 @@
       try {
         engine.tick();
       } catch (e) {
-        console.warn('[Insync] tick failed', e);
+        console.warn('[Watchalong] tick failed', e);
       }
     }, TUNING.TICK_MS);
   }

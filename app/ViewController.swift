@@ -1,6 +1,6 @@
 //
 //  ViewController.swift
-//  Insync
+//  Watchalong
 //
 //  Tracked override of the file the Safari web-extension packager generates.
 //  build.sh copies it over the generated one, because build/ is regenerated
@@ -19,9 +19,9 @@ import SafariServices
 import WebKit
 import os.log
 
-let extensionBundleIdentifier = "com.closiq.Insync.Extension"
+let extensionBundleIdentifier = "com.closiq.Watchalong.Extension"
 
-private let log = OSLog(subsystem: "com.closiq.Insync", category: "container")
+private let log = OSLog(subsystem: "com.closiq.Watchalong", category: "container")
 
 class ViewController: NSViewController, WKNavigationDelegate, WKScriptMessageHandler {
 

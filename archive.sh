@@ -12,10 +12,10 @@
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-APP_NAME="Insync"
+APP_NAME="Watchalong"
 TEAM_ID="QFJW3NFT2M"
-APP_ID="com.closiq.Insync"
-EXT_ID="com.closiq.Insync.Extension"
+APP_ID="com.closiq.Watchalong"
+EXT_ID="com.closiq.Watchalong.Extension"
 
 VERSION="${VERSION:-1.0}"
 # A build number must be unique per version in App Store Connect and must only
@@ -61,9 +61,9 @@ cat > "$ROOT/build/ExportOptions.plist" <<PLIST
 	<key>provisioningProfiles</key>
 	<dict>
 		<key>$APP_ID</key>
-		<string>Insync Mac App Store</string>
+		<string>Watchalong Mac App Store</string>
 		<key>$EXT_ID</key>
-		<string>Insync Extension Mac App Store</string>
+		<string>Watchalong Extension Mac App Store</string>
 	</dict>
 	<key>destination</key>
 	<string>export</string>

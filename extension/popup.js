@@ -1,7 +1,7 @@
 (() => {
   'use strict';
 
-  const { DEFAULTS, normalizeCode, isValidCode } = globalThis.InsyncShared;
+  const { DEFAULTS, normalizeCode, isValidCode } = globalThis.WatchalongShared;
   const $ = (id) => document.getElementById(id);
 
   const el = {
@@ -93,7 +93,7 @@
   }
 
   api.runtime.onMessage.addListener((msg) => {
-    if (msg && msg.t === 'insync-state') render(msg.state);
+    if (msg && msg.t === 'watchalong-state') render(msg.state);
   });
 
   // ------------------------------------------------------------------ actions

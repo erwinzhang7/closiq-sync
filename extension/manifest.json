@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "name": "Insync",
+  "name": "Watchalong",
   "version": "1.0",
   "description": "Watch videos in sync with someone else. Play, pause and seek together on any site, with gentle speed nudges that close small gaps invisibly.",
 
@@ -12,7 +12,7 @@
   },
 
   "action": {
-    "default_title": "Insync",
+    "default_title": "Watchalong",
     "default_popup": "popup.html",
     "default_icon": {
       "16": "images/toolbar-16.png",

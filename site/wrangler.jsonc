@@ -1,6 +1,6 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "insync-site",
+  "name": "watchalong-site",
   "compatibility_date": "2026-05-28",
   // Assets-only Worker: there is no server-side logic here, just three static
   // pages. No `main`, so nothing to execute and nothing to keep secure.
@@ -13,7 +13,7 @@
   },
   "routes": [
     {
-      "pattern": "insync.closiq.app",
+      "pattern": "watchalong.closiq.app",
       "custom_domain": true
     }
   ]

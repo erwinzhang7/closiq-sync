@@ -31,12 +31,12 @@ from pathlib import Path
 
 DEPLOYMENT_TARGET = "13.0"
 
-APP_BUNDLE_ID = "com.closiq.Insync"
-EXT_BUNDLE_ID = "com.closiq.Insync.Extension"
+APP_BUNDLE_ID = "com.closiq.Watchalong"
+EXT_BUNDLE_ID = "com.closiq.Watchalong.Extension"
 
 TEAM_ID = "QFJW3NFT2M"  # Closiq Inc.
-APP_PROFILE = "Insync Mac App Store"
-EXT_PROFILE = "Insync Extension Mac App Store"
+APP_PROFILE = "Watchalong Mac App Store"
+EXT_PROFILE = "Watchalong Extension Mac App Store"
 
 CONFIG_BLOCK = r"\{\s*isa = XCBuildConfiguration;.*?\n\t\t\};"
 

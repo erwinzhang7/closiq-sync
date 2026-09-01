@@ -15,7 +15,7 @@ function show(enabled, useSettingsInsteadOfPreferences) {
   if (button) button.textContent = `Open ${place} → Extensions…`;
 
   const unknown = document.querySelector('.state-unknown');
-  if (unknown) unknown.textContent = `Turn on the Insync extension in ${place}.`;
+  if (unknown) unknown.textContent = `Turn on the Watchalong extension in ${place}.`;
 
   if (typeof enabled === 'boolean') {
     document.body.classList.toggle('state-on', enabled);

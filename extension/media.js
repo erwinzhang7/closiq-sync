@@ -26,7 +26,7 @@
 (() => {
   'use strict';
 
-  const { clamp } = globalThis.InsyncShared;
+  const { clamp } = globalThis.WatchalongShared;
 
   const EPS = 1e-3;
   const PAUSE_ECHO_MS = 900;
@@ -325,7 +325,7 @@
     }
   }
 
-  globalThis.InsyncMedia = {
+  globalThis.WatchalongMedia = {
     start,
     primary,
     hasVideo,

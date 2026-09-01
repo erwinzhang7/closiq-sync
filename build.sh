@@ -7,13 +7,13 @@
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-APP_NAME="Insync"
+APP_NAME="Watchalong"
 # Capital I is load-bearing. The packager derives the APP's identifier from
 # --app-name but the EXTENSION's from --bundle-identifier, and Xcode's
 # "embedded binary's bundle identifier is not prefixed with the parent app's"
-# check is case-SENSITIVE. `app.closiq.insync` against an app named `Insync`
+# check is case-SENSITIVE. `app.closiq.watchalong` against an app named `Watchalong`
 # fails the build with exactly that message.
-BUNDLE_ID="com.closiq.Insync"
+BUNDLE_ID="com.closiq.Watchalong"
 
 EXTRA=()
 [[ "${1:-}" == "--snapshot" ]] && EXTRA=(--copy-resources)
