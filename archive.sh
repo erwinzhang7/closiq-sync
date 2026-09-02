@@ -82,7 +82,7 @@ xcodebuild -exportArchive \
   -exportOptionsPlist "$ROOT/build/ExportOptions.plist" \
   -exportPath "$EXPORT_DIR" 2>&1 | grep -iE "error:|Exported|EXPORT (SUCCEEDED|FAILED)" || true
 
-PKG=$(find "$EXPORT_DIR" -name "*.pkg" | head -1)
+PKG=$(find "$EXPORT_DIR" -name "*.pkg" | head -1 || true)
 [ -n "$PKG" ] || { echo "no .pkg produced; see output above"; exit 1; }
 echo "package: $PKG"
 

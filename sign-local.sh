@@ -47,7 +47,7 @@ if [ -z "$APP" ]; then
     exit 1
   fi
   APP=$(find ~/Library/Developer/Xcode/DerivedData -maxdepth 6 -name "$APP_NAME.app" \
-        -path "*Build/Products/Release*" -not -path "*Index.noindex*" 2>/dev/null | head -1)
+        -path "*Build/Products/Release*" -not -path "*Index.noindex*" 2>/dev/null | head -1 || true)
 fi
 [ -d "$APP" ] || { echo "no $APP_NAME.app found"; exit 1; }
 

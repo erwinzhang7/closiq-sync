@@ -33,7 +33,14 @@ PROJECT="$ROOT/build/$APP_NAME/$APP_NAME.xcodeproj"
 
 IDENTITY="Developer ID Application"
 
-if ! security find-identity -v -p codesigning | grep -q "$IDENTITY"; then
+# Capture, then match. `security ... | grep -q "$IDENTITY"` under pipefail
+# inverts: grep exits on the match, security takes SIGPIPE and reports non-zero,
+# and the negated test fires on a machine that HAS the certificate. It only
+# appears to work because the output is small enough to usually win the race.
+IDENTITIES="$(security find-identity -v -p codesigning 2>/dev/null || true)"
+case "$IDENTITIES" in
+  *"$IDENTITY"*) : ;;
+  *)
   cat <<MSG
 No "$IDENTITY" certificate in the keychain.
 
@@ -47,8 +54,9 @@ cannot hold that role. Create it by hand, once:
 The cap is 5 certificates per account, not 5 apps, and one cert signs every app
 for its full five-year life.
 MSG
-  exit 1
-fi
+    exit 1
+    ;;
+esac
 
 "$ROOT/scripts/check-manifest.py"
 "$ROOT/build.sh" >/dev/null
@@ -147,7 +155,7 @@ xcrun notarytool submit "$DMG" \
 if ! grep -q "status: Accepted" "$ROOT/build/notarize.log"; then
   echo
   echo "Notarization did not succeed. Get the reasons with:"
-  ID=$(grep -m1 -oE '\bid: [0-9a-f-]{36}' "$ROOT/build/notarize.log" | head -1 | awk '{print $2}')
+  ID=$(grep -m1 -oE '\bid: [0-9a-f-]{36}' "$ROOT/build/notarize.log" | head -1 | awk '{print $2}' || true)
   echo "  xcrun notarytool log $ID --key \"\$ASC_KEY_PATH\" --key-id \"\$ASC_KEY_ID\" --issuer \"\$ASC_ISSUER_ID\""
   exit 1
 fi
