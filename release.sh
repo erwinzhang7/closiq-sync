@@ -100,20 +100,24 @@ APP="$EXPORT_DIR/$APP_NAME.app"
 [ -d "$APP" ] || { echo "no exported app; see output above"; exit 1; }
 
 echo "== checks that decide whether notarization can succeed =="
-# Hardened runtime is mandatory for notarization and its absence is reported
-# only after a round trip to Apple.
-if codesign -d --verbose=2 "$APP" 2>&1 | grep -q "flags=.*runtime"; then
-  echo "  ok   hardened runtime"
-else
-  echo "  FAIL hardened runtime missing; notarization will reject this"
-  exit 1
-fi
-# get-task-allow is a debug entitlement and is an automatic notarization reject.
-if codesign -d --entitlements - --xml "$APP" 2>/dev/null | grep -q "get-task-allow"; then
-  echo "  FAIL get-task-allow present; notarization will reject this"
-  exit 1
-fi
-echo "  ok   no debug entitlement"
+# Capture first, match second. Piping into `grep -q` under `set -o pipefail` is
+# a trap: grep exits on the first match, codesign takes SIGPIPE and reports
+# non-zero, and the pipeline "fails" precisely when the thing being looked for
+# was FOUND. That inverts every check written this way, and for a check phrased
+# as "fail if present" it inverts silently in the unsafe direction.
+SIGINFO="$(codesign -d --verbose=2 "$APP" 2>&1 || true)"
+ENTS="$(codesign -d --entitlements - --xml "$APP" 2>/dev/null || true)"
+
+case "$SIGINFO" in
+  *"(runtime)"*) echo "  ok   hardened runtime" ;;
+  *) echo "  FAIL hardened runtime missing; notarization will reject this"; exit 1 ;;
+esac
+
+case "$ENTS" in
+  *get-task-allow*)
+    echo "  FAIL get-task-allow present; notarization will reject this"; exit 1 ;;
+  *) echo "  ok   no debug entitlement" ;;
+esac
 codesign -dvv "$APP" 2>&1 | grep -E "^(Identifier|Authority|TeamIdentifier)" | sed 's/^/  /'
 
 echo "== building dmg =="

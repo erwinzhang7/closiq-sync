@@ -2,18 +2,25 @@
   "manifest_version": 3,
   "name": "Closiq Sync",
   "version": "1.0",
-  "_comment_description": "MUST be 112 characters or fewer. App Store upload rejects longer with error 90849, at upload time rather than at build time. scripts/check-manifest.py enforces it.",
   "description": "Watch videos in step with someone else. Play, pause and skip together, on any site with a video.",
-
-  "permissions": ["storage", "activeTab", "scripting", "tabs"],
-  "host_permissions": ["*://*/*"],
-
+  "permissions": [
+    "storage",
+    "activeTab",
+    "scripting",
+    "tabs"
+  ],
+  "host_permissions": [
+    "*://*/*"
+  ],
   "background": {
-    "scripts": ["api.js", "shared.js", "background.js"]
+    "scripts": [
+      "api.js",
+      "shared.js",
+      "background.js"
+    ]
   },
-
   "action": {
-    "default_title": "ClosiqSync",
+    "default_title": "Closiq Sync",
     "default_popup": "popup.html",
     "default_icon": {
       "16": "images/toolbar-16.png",
@@ -23,7 +30,6 @@
       "64": "images/toolbar-64.png"
     }
   },
-
   "icons": {
     "48": "images/icon-48.png",
     "96": "images/icon-96.png",
@@ -31,11 +37,18 @@
     "256": "images/icon-256.png",
     "512": "images/icon-512.png"
   },
-
   "content_scripts": [
     {
-      "matches": ["*://*/*"],
-      "js": ["api.js", "shared.js", "media.js", "sync.js", "content.js"],
+      "matches": [
+        "*://*/*"
+      ],
+      "js": [
+        "api.js",
+        "shared.js",
+        "media.js",
+        "sync.js",
+        "content.js"
+      ],
       "run_at": "document_start",
       "all_frames": true
     }
