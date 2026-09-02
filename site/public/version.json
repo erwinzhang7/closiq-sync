@@ -1,0 +1,6 @@
+{
+  "version": "1.0.1",
+  "url": "https://github.com/erwinzhang7/closiq-sync/releases/latest",
+  "minSupported": "1.0.0",
+  "notes": "Fixes an unusable server field, a stale endpoint that survived a rename, and adds protocol versioning."
+}

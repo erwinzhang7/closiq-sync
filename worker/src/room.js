@@ -17,6 +17,11 @@ const MAX_PEERS = 8;
 const MAX_MESSAGE_BYTES = 4096;
 const ROOM_TTL_MS = 12 * 60 * 60 * 1000; // rooms self-destruct after 12h idle
 
+// The oldest client wire format this relay still accepts. Raising it retires
+// old clients without them needing to have shipped any update logic of their
+// own, which is the only lever that works on installs already in the wild.
+const MIN_PROTOCOL = 1;
+
 export class Room {
   constructor(state, env) {
     this.state = state;
@@ -66,11 +71,18 @@ export class Room {
     switch (msg.t) {
       case 'hello': {
         if (typeof msg.id !== 'string' || !msg.id) return;
-        ws.serializeAttachment({ ...self, id: msg.id });
+        // A client that predates versioning sends no `v`; treat it as 0 so it
+        // compares as older than everything rather than as equal.
+        const v = num(msg.v);
+        ws.serializeAttachment({ ...self, id: msg.id, v });
 
-        const peers = this.peers(ws).map((p) => p.id).filter(Boolean);
-        ws.send(JSON.stringify({ t: 'welcome', id: msg.id, peers, now }));
-        this.broadcast(ws, { t: 'peer-join', id: msg.id, now });
+        const peers = this.peers(ws)
+          .filter((p) => p.id)
+          .map((p) => ({ id: p.id, v: p.v || 0 }));
+        ws.send(
+          JSON.stringify({ t: 'welcome', id: msg.id, peers, now, minProtocol: MIN_PROTOCOL })
+        );
+        this.broadcast(ws, { t: 'peer-join', id: msg.id, v, now });
 
         // Any join refreshes the room's lifetime.
         await this.state.storage.setAlarm(now + ROOM_TTL_MS);
@@ -91,6 +103,9 @@ export class Room {
         this.broadcast(ws, {
           t: 'state',
           id: self.id,
+          // Stamped from the sender's hello, not from this message, so a peer
+          // cannot claim a different version per frame.
+          v: self.v || 0,
           srv: now,
           pos: num(msg.pos),
           rate: num(msg.rate),

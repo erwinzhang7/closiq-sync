@@ -208,6 +208,31 @@ footer {
   border-top: 1px solid var(--line);
 }
 
+/* Deliberately below the fold of the main action: useful, never in the way. */
+.update {
+  display: block;
+  margin-top: 10px;
+  padding: 7px 10px;
+  border-radius: 7px;
+  background: color-mix(in srgb, var(--accent) 16%, transparent);
+  color: var(--accent);
+  font-size: 12px;
+  font-weight: 550;
+  text-align: center;
+  text-decoration: none;
+}
+
+.update:hover {
+  background: color-mix(in srgb, var(--accent) 26%, transparent);
+}
+
+.version {
+  float: right;
+  color: var(--muted);
+  font-size: 11px;
+  font-variant-numeric: tabular-nums;
+}
+
 .link {
   border: 0;
   background: none;

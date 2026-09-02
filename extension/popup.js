@@ -1,7 +1,8 @@
 (() => {
   'use strict';
 
-  const { DEFAULTS, normalizeCode, isValidCode } = globalThis.ClosiqSyncShared;
+  const { DEFAULTS, normalizeCode, isValidCode, APP_VERSION, UPDATE_MANIFEST } =
+    globalThis.ClosiqSyncShared;
   const $ = (id) => document.getElementById(id);
 
   const el = {
@@ -22,7 +23,43 @@
     advancedToggle: $('advanced-toggle'),
     advanced: $('advanced'),
     endpoint: $('endpoint'),
+    update: $('update'),
+    version: $('version'),
   };
+
+  el.version.textContent = APP_VERSION;
+
+  /**
+   * There is no auto-update on a directly-distributed build, so the least we can
+   * do is say when one exists. Checked here rather than in the container app
+   * because this is the surface people actually open.
+   */
+  async function checkForUpdate() {
+    try {
+      const res = await fetch(UPDATE_MANIFEST, { cache: 'no-store' });
+      if (!res.ok) return;
+      const info = await res.json();
+      if (!info || typeof info.version !== 'string') return;
+      if (cmpVersion(info.version, APP_VERSION) <= 0) return;
+      el.update.textContent = `Update to ${info.version}`;
+      el.update.href = info.url || 'https://sync.closiq.app/download';
+      el.update.hidden = false;
+    } catch {
+      // Offline, or the manifest moved. An update check is never worth an error
+      // in the user's face.
+    }
+  }
+
+  /** Numeric compare so 1.0.10 sorts above 1.0.9, which a string compare gets wrong. */
+  function cmpVersion(a, b) {
+    const pa = String(a).split('.').map(Number);
+    const pb = String(b).split('.').map(Number);
+    for (let i = 0; i < Math.max(pa.length, pb.length); i++) {
+      const d = (pa[i] || 0) - (pb[i] || 0);
+      if (d) return d < 0 ? -1 : 1;
+    }
+    return 0;
+  }
 
   const ask = (msg) => api.runtime.sendMessage(msg).catch(() => null);
 
@@ -38,7 +75,12 @@
     const inRoom = !!s.room;
     el.idle.hidden = inRoom;
     el.room.hidden = !inRoom;
-    el.endpoint.value = s.endpoint || DEFAULTS.endpoint;
+    // Never write into this field while the user is in it. render() runs on a
+    // 1s poll, so an unconditional assignment resets what is being typed once a
+    // second and makes the field impossible to edit at all.
+    const editing =
+      document.activeElement === el.endpoint || !el.advanced.hidden;
+    if (!editing) el.endpoint.value = s.endpoint || DEFAULTS.endpoint;
 
     if (!inRoom) return;
     el.codeDisplay.textContent = s.room;
@@ -57,6 +99,12 @@
       text = 'Open a video to start syncing';
     } else if (!sync) {
       text = 'Connecting…';
+    } else if (sync.needsUpdate) {
+      tone = 'bad';
+      text = 'This version is too old';
+    } else if (sync.peerOutdated) {
+      tone = 'warn';
+      text = 'Your partner needs to update';
     } else if (sync.matchedCount === 0 && sync.mismatched) {
       tone = 'warn';
       text = 'Watching something different';
@@ -154,6 +202,7 @@
   });
 
   refresh();
+  checkForUpdate();
   // The background pushes updates, but a popup opened mid-reconnect would
   // otherwise sit on a stale frame until the next event.
   setInterval(refresh, 1000);

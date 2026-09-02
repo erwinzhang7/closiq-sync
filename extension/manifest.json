@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Closiq Sync",
-  "version": "1.0",
+  "version": "1.0.1",
   "description": "Watch videos in step with someone else. Play, pause and skip together, on any site with a video.",
   "permissions": [
     "storage",

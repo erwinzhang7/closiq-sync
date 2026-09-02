@@ -22,6 +22,10 @@ const read = (f) => fs.readFileSync(path.join(dir, '..', 'extension', f), 'utf8'
 const SHARED = read('shared.js');
 const SYNC = read('sync.js');
 
+// Read from the source rather than duplicated, so the harness cannot silently
+// drift from the protocol it is meant to be exercising.
+const PROTOCOL_VERSION = Number(/PROTOCOL_VERSION = (\d+)/.exec(SHARED)[1]);
+
 let simNow = 0; // the one true time; nobody in the system can see it
 const LATENCY_MS = 35; // one way, peer <-> relay
 const SERVER_SKEW = 0; // relay clock == sim clock by definition
@@ -115,7 +119,13 @@ function makeRelay(peers) {
         wire.push({
           at: now + LATENCY_MS,
           to: fromId,
-          msg: { t: 'welcome', id: fromId, peers: peers.filter((p) => p !== fromId), now },
+          msg: {
+            t: 'welcome',
+            id: fromId,
+            peers: peers.filter((p) => p !== fromId),
+            now,
+            minProtocol: PROTOCOL_VERSION,
+          },
         });
         for (const other of peers) {
           if (other === fromId) continue;
@@ -129,7 +139,9 @@ function makeRelay(peers) {
           wire.push({
             at: now + LATENCY_MS,
             to: other,
-            msg: { ...msg, id: fromId, srv: now + SERVER_SKEW },
+            // The real relay stamps `v` from the sender's hello, not from the
+            // frame, so peers cannot claim a different version per message.
+            msg: { ...msg, id: fromId, v: PROTOCOL_VERSION, srv: now + SERVER_SKEW },
           });
         }
       }
@@ -417,6 +429,52 @@ console.log('\n5. Different videos are never acted on');
   check(va.seeks + vb.seeks === seeksBefore, 'nobody was dragged to the other video');
   check(Math.abs(va.pos - 38) < 0.5, 'A kept playing its own video normally');
   check(a.status && a.status.mismatched, 'A reports the mismatch to the UI');
+}
+
+// ============================================================== scenario 6
+console.log('\n6. A peer on a different protocol version is never acted on');
+{
+  simNow = 6_000_000;
+  wire.length = 0;
+  const va = makeVideo({ pos: 100, paused: false });
+  const a = makePeer('a', { skew: 0, video: va });
+  const relay = makeRelay(['a']);
+  a.engine.setFingerprint('samevideo');
+  a.engine.state.intentPaused = false;
+  a.outbox.length = 0;
+  relay.deliver('a', { t: 'hello', id: 'a' });
+  run('settle', { seconds: 3, peers: [a], relay });
+
+  const seeksBefore = va.seeks;
+  const posBefore = va.pos;
+
+  // A future client, same video, wildly different position. If version were
+  // ignored this would drag A four minutes down the timeline.
+  for (let i = 0; i < 12; i++) {
+    a.engine.handleMessage({
+      t: 'state',
+      id: 'future',
+      v: PROTOCOL_VERSION + 1,
+      srv: simNow,
+      pos: 340,
+      rate: 1,
+      paused: false,
+      buffering: false,
+      media: 'samevideo',
+      seq: i,
+    });
+    run('tick', { seconds: 1, peers: [a], relay });
+  }
+
+  check(va.seeks === seeksBefore, 'no seek toward the incompatible peer');
+  check(
+    Math.abs(va.pos - (posBefore + 12)) < 1.0,
+    'A kept playing its own timeline',
+    `${va.pos.toFixed(1)} vs ~${(posBefore + 12).toFixed(1)}`
+  );
+  check(!va.paused, 'A was not held by a peer it cannot understand');
+  check(a.status && a.status.peerOutdated, 'A reports the version mismatch to the UI');
+  check(a.status && a.status.matchedCount === 0, 'the incompatible peer is not counted as matched');
 }
 
 console.log(

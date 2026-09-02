@@ -31,7 +31,7 @@
 (() => {
   'use strict';
 
-  const { TUNING, clamp } = globalThis.ClosiqSyncShared;
+  const { TUNING, clamp, PROTOCOL_VERSION } = globalThis.ClosiqSyncShared;
 
   const AHEAD_HOLD_S = TUNING.SEEK_S;
   const BEHIND_SEEK_S = 10;
@@ -63,6 +63,8 @@
       seq: 0,
       fingerprint: null,
       connected: false,
+      // Set when the relay says our wire format is too old to be served.
+      needsUpdate: false,
     };
 
     const nowLocal = () => Date.now();
@@ -156,10 +158,14 @@
       return out;
     }
 
-    /** Peers that are on the same video as us. */
+    const compatible = (p) => !!p && (p.v || 0) === PROTOCOL_VERSION;
+
+    /** Peers on the same video AND speaking the same wire format. */
     function matchedPeers() {
       if (!state.fingerprint) return [];
-      return livePeers().filter((p) => p.media && p.media === state.fingerprint);
+      return livePeers().filter(
+        (p) => p.media && p.media === state.fingerprint && compatible(p)
+      );
     }
 
     // ------------------------------------------------------------------ output
@@ -191,6 +197,10 @@
         case 'welcome':
           state.selfId = msg.id;
           state.connected = true;
+          // The relay can retire old clients by raising its minimum, which is
+          // the only lever that reaches installs already in the wild.
+          state.needsUpdate =
+            typeof msg.minProtocol === 'number' && PROTOCOL_VERSION < msg.minProtocol;
           state.samples = [];
           for (let i = 0; i < 3; i++) sendPing();
           push('hello');
@@ -227,6 +237,7 @@
     function onPeerState(msg) {
       const prev = state.peers.get(msg.id);
       state.peers.set(msg.id, {
+        v: typeof msg.v === 'number' ? msg.v : 0,
         pos: msg.pos,
         rate: msg.rate || 1,
         paused: !!msg.paused,
@@ -239,6 +250,14 @@
       if (!state.fingerprint || msg.media !== state.fingerprint) {
         report();
         return; // different video: never act on it
+      }
+
+      // A peer speaking a different wire format is worse than no peer: its
+      // fields may mean something else entirely. Refuse to be driven by it and
+      // say so, rather than syncing to a misread position.
+      if (!compatible(state.peers.get(msg.id))) {
+        report();
+        return;
       }
 
       // Explicit intent from the peer, last writer wins.
@@ -490,6 +509,10 @@
         peerCount: livePeers().length,
         matchedCount: peers.length,
         mismatched: livePeers().length > peers.length,
+        // Distinguish "watching something else" from "needs to update", which
+        // look identical from the outside but have different fixes.
+        peerOutdated: livePeers().some((p) => !compatible(p)),
+        needsUpdate: state.needsUpdate,
         rtt: state.rtt,
         offset: Math.round(state.offset),
         drift: ref !== null && snap ? +(snap.pos - ref).toFixed(3) : null,

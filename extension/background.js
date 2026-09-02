@@ -22,7 +22,8 @@
 (() => {
   'use strict';
 
-  const { DEFAULTS, TUNING, isValidCode, normalizeCode } = globalThis.ClosiqSyncShared;
+  const { DEFAULTS, TUNING, isValidCode, normalizeCode, PROTOCOL_VERSION } =
+    globalThis.ClosiqSyncShared;
 
   let cfg = { ...DEFAULTS };
   let ws = null;
@@ -51,6 +52,11 @@
     try {
       const got = await api.storage.local.get(Object.keys(DEFAULTS));
       cfg = { ...DEFAULTS, ...got };
+      // A stored endpoint the user never chose is stale config, not a
+      // preference. Without this, renaming the Worker strands every existing
+      // install on a hostname that no longer resolves, and the corrected
+      // default never gets a chance to apply.
+      if (!cfg.endpointPinned) cfg.endpoint = DEFAULTS.endpoint;
     } catch {
       cfg = { ...DEFAULTS };
     }
@@ -96,7 +102,7 @@
       if (ws !== sock) return;
       socketState = 'open';
       retryDelay = TUNING.RECONNECT_BASE_MS;
-      sendRaw({ t: 'hello', id: clientId });
+      sendRaw({ t: 'hello', id: clientId, v: PROTOCOL_VERSION });
       broadcastStatus();
     });
 
@@ -197,7 +203,7 @@
       post(activePort, { t: 'role', active: true, room: cfg.room });
       // A newly promoted frame has no session state, so make the socket
       // re-announce us rather than waiting for a heartbeat from the far side.
-      if (socketState === 'open') sendRaw({ t: 'hello', id: clientId });
+      if (socketState === 'open') sendRaw({ t: 'hello', id: clientId, v: PROTOCOL_VERSION });
     }
     broadcastStatus();
   }
@@ -322,7 +328,9 @@
       (async () => {
         const endpoint = String(msg.endpoint || '').trim() || DEFAULTS.endpoint;
         disconnect();
-        await saveCfg({ endpoint });
+        // Clearing the field, or typing the default back in, un-pins it so
+        // future default changes are picked up again.
+        await saveCfg({ endpoint, endpointPinned: endpoint !== DEFAULTS.endpoint });
         if (cfg.room) connect();
         sendResponse({ ok: true, endpoint });
       })();

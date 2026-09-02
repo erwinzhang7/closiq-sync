@@ -60,7 +60,13 @@ if (welcomeA.peers.length !== 0) fail('A should see no named peers yet');
 
 b.send({ t: 'hello', id: 'peer-b' });
 const welcomeB = await b.expect((m) => m.t === 'welcome');
-if (!welcomeB.peers.includes('peer-a')) fail(`B should see peer-a, got ${welcomeB.peers}`);
+// peers is [{id, v}] since protocol versioning; a bare id list would not let a
+// joiner tell a compatible peer from one it must refuse to be driven by.
+const peerIds = (welcomeB.peers || []).map((p) => (typeof p === 'string' ? p : p.id));
+if (!peerIds.includes('peer-a')) fail(`B should see peer-a, got ${JSON.stringify(welcomeB.peers)}`);
+if (typeof welcomeB.minProtocol !== 'number') fail('welcome must carry minProtocol');
+const va = (welcomeB.peers || [])[0];
+if (!va || typeof va.v !== 'number') fail(`peer entries must carry v, got ${JSON.stringify(va)}`);
 const join = await a.expect((m) => m.t === 'peer-join');
 if (join.id !== 'peer-b') fail('A should be told peer-b joined');
 log('join propagation ok');

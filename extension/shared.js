@@ -7,6 +7,16 @@
   // later is a settings change rather than an App Store resubmission.
   const DEFAULT_ENDPOINT = 'https://closiqsync-rooms.erwinzhang.workers.dev';
 
+  // Bumped only when the wire format changes in a way older clients cannot
+  // read. Peers on different protocol versions refuse to drive each other
+  // rather than misbehaving silently, and the relay can retire old clients by
+  // raising its own minimum without them needing update logic.
+  const PROTOCOL_VERSION = 1;
+
+  // Shown in the popup and compared against version.json for update checks.
+  const APP_VERSION = '1.0.1';
+  const UPDATE_MANIFEST = 'https://sync.closiq.app/version.json';
+
   // Must match the server's alphabet exactly. Excludes every glyph that survives
   // being read aloud badly: 0/O, 1/I/L, 2/Z, 5/S, 8/B.
   const CODE_ALPHABET = 'ACDEFGHJKMNPQRTUVWXY34679';
@@ -54,6 +64,11 @@
 
   const DEFAULTS = {
     endpoint: DEFAULT_ENDPOINT,
+    // Whether the user deliberately chose a server. Without this, a stored
+    // endpoint outlives the build that wrote it: a saved value overrides a
+    // corrected default forever, so renaming the Worker stranded every existing
+    // install on a hostname that no longer resolves.
+    endpointPinned: false,
     room: null,
     autoRejoin: true,
   };
@@ -104,6 +119,9 @@
 
   globalThis.ClosiqSyncShared = {
     DEFAULT_ENDPOINT,
+    PROTOCOL_VERSION,
+    APP_VERSION,
+    UPDATE_MANIFEST,
     CODE_ALPHABET,
     CODE_LENGTH,
     CODE_RE,
