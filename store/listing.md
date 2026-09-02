@@ -8,9 +8,9 @@ Everything to paste into App Store Connect. Field lengths are checked by
 - **Primary category** Entertainment · **Secondary** Social Networking
 - **Age rating** 4+
 - **Copyright** 2026 Closiq Inc.
-- **Support URL** https://closiqsync.closiq.app/support
-- **Marketing URL** https://closiqsync.closiq.app
-- **Privacy Policy URL** https://closiqsync.closiq.app/privacy
+- **Support URL** https://sync.closiq.app/support
+- **Marketing URL** https://sync.closiq.app
+- **Privacy Policy URL** https://sync.closiq.app/privacy
 - **Review contact name** Erwin Zhang
 - **Review contact email** contact@closiq.app
 - **Review contact phone** +16473652479
@@ -147,7 +147,7 @@ A screen recording of exactly the above, made on two Macs, is attached to
 this submission under App Review Information. If anything is unclear we are
 glad to walk through it on a call.
 
-You may also use https://closiqsync.closiq.app/demo on both machines. It
+You may also use https://sync.closiq.app/demo on both machines. It
 hosts a three-minute clip with a running timer burned into the picture, so
 when the two Macs are in step they visibly show the same number.
 

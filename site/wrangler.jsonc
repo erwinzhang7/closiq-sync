@@ -16,10 +16,10 @@
     // Range, so this one path has to reach the Worker.
     "run_worker_first": ["/demo/clip.mp4"]
   },
+  // sync.closiq.app is the public name. The longer host stays routed so any
+  // link already handed out keeps working.
   "routes": [
-    {
-      "pattern": "closiqsync.closiq.app",
-      "custom_domain": true
-    }
+    { "pattern": "sync.closiq.app", "custom_domain": true },
+    { "pattern": "closiqsync.closiq.app", "custom_domain": true }
   ]
 }
